@@ -1,5 +1,7 @@
 # ffprobe-docker
 
+![build image and push to docker hub workflow](https://github.com/mikeoertli/ffprobe-docker/actions/workflows/publish-image-to-docker-hub.yml/badge.svg)
+
 ## Overview
 
 Simple lightweight container to run `ffprobe` (ex: on Apple Silicon Macs since there is [no plan to support official static binaries releases for Apple Silicon](https://evermeet.cx/ffmpeg/apple-silicon-arm)).
