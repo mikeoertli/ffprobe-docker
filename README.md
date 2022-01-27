@@ -1,9 +1,20 @@
 # ffprobe-docker
 
 ## Overview
+
 Simple lightweight container to run `ffprobe` (ex: on Apple Silicon Macs since there is [no plan to support official static binaries releases for Apple Silicon](https://evermeet.cx/ffmpeg/apple-silicon-arm)).
 
 This uses Alpine v3.15 and `ffprobe` v4.4.1.
+
+## Docker Hub
+
+This project is now on Docker Hub under the same name ([mikeoertli/ffprobe-docker](https://hub.docker.com/r/mikeoertli/ffprobe-docker))! Instead of needing to clone this repo and build, you can just pull down the pre-built images and run with those.
+
+The `docker pull` command is:
+
+```bash
+docker pull mikeoertli/ffprobe-docker
+```
 
 ## What is FFprobe?
 
@@ -57,3 +68,11 @@ The container sets a `CMD` value of `--help`, this serves as the default paramet
 > The best use for `ENTRYPOINT` is to set the image’s main command, allowing that image to be run as though it was that command (and then use `CMD` as the default flags).
 
 To put it differently, if you don't pass an audio file argument to the `docker run` command, you're effectively performing the equivalent of executing `ffprobe --help` from a native command line.
+
+### Drop-in Replacement for ffprobe
+
+In order to make this (appear to be) a "true" drop-in replacement for running `ffprobe` natively, you could define an alias... something like this:
+
+```bash
+alias ffprobe='docker run -it --name ffprobe --rm -v $(pwd):/temp mikeoertli/ffprobe:latest'
+```
