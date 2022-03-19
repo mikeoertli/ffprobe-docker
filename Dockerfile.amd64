@@ -9,7 +9,7 @@ WORKDIR /temp
 # List of versions can be found here: https://www.johnvansickle.com/ffmpeg/old-releases/
 
 # This points to the release archive specific version:
-RUN wget -q https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-4.4.1-arm64-static.tar.xz \
+RUN wget -q https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-4.4.1-amd64-static.tar.xz \
   && tar xJf /temp/ffmpeg-*.tar.xz \
   && mv /temp/ffmpeg-*-static/ffprobe /usr/local/bin/ \
   && rm -rf /temp/ffmpeg*

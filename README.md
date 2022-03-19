@@ -4,9 +4,9 @@
 
 ## Overview
 
-Simple lightweight container to run `ffprobe` (ex: on Apple Silicon Macs since there is [no plan to support official static binaries releases for Apple Silicon](https://evermeet.cx/ffmpeg/apple-silicon-arm)).
+Simple lightweight container to run `ffprobe`.
 
-This uses Alpine v3.15 and `ffprobe` v4.4.1.
+This uses Alpine `v3.15.1` and `ffprobe v4.4.1`.
 
 ## Docker Hub
 
@@ -28,22 +28,58 @@ docker pull mikeoertli/ffprobe-docker
 
 ### Build
 
+The `ffprobe` version number is kept in `ffprobe-version.txt` so this build command doesn't need to change.
+
+However, the `Dockerfile` is currently manually kept in sync with the `txt` file.
+
+Building ARM:
+
 ```bash
-docker build -t mikeoertli/ffprobe:4.4.1 -t mikeoertli/ffprobe:latest .
+docker build -t mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)-arm64" -t mikeoertli/ffprobe-docker:latest .
+```
+
+Building AMD:
+
+```bash
+docker build -t mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)-amd64" -t mikeoertli/ffprobe-docker:latest -f Dockerfile.amd64 .
+```
+
+### Publishing to Docker Hub
+
+These images are published to [Docker Hub under `mikeoertli/ffprobe-docker`](https://hub.docker.com/r/mikeoertli/ffprobe-docker/tags).
+
+Right now, GitHub actions [only support](https://www.mess.org/2022/01/17/Creating-a-linux-arm64-github-actions-runner/) `amd64` architecture, so for now, those are the only images that are build and published automatically.
+
+#### Publishing ARM64 Images (Manual)
+
+Images for `arm64` architecture must be pushed manually, the command to do that is:
+
+```bash
+docker push mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)"_arm64
+```
+
+#### Publishing AMD64 Images
+
+Images for `amd64` architecture are pushed when tagging the repo with a tag matching the format of `v*.*-*`.
+
+In addition to automatic publication via GitHub Actions, repos can also be pushed manually, the command to do that is:
+
+```bash
+docker push mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)"_amd64
 ```
 
 ### Run
 
 There are a couple important items to note:
 
-1. You will need to provide a file name. 
+1. You will need to provide a file name.
 2. As shown below, a [Docker Volume](https://docs.docker.com/storage/volumes/) is created that maps the *current working directory on the host machine* to `/temp` inside the container.
 3. The `WORKDIR` is `/temp`, since this is where files are expected, a relative file reference is fine.
 
 #### Run Equivalent of 'ffprobe FILE'
 
 ```bash
-docker run -it --name ffprobe --rm -v $(pwd):/temp mikeoertli/ffprobe:latest "<FILE>"
+docker run -it --name ffprobe --rm -v $(pwd):/temp mikeoertli/ffprobe-docker:latest "<FILE>"
 ```
 
 #### Passing CLI args
@@ -51,7 +87,7 @@ docker run -it --name ffprobe --rm -v $(pwd):/temp mikeoertli/ffprobe:latest "<F
 You can still pass command line args, for example, if you want to print the format using the `flat` format with `-show_format -print_format flat`, you can.
 
 ```bash
-docker run -it --name ffprobe --rm -v $(pwd):/temp mikeoertli/ffprobe:latest -show_format -print_format flat "/temp/<your_file>.m4a"
+docker run -it --name ffprobe --rm -v $(pwd):/temp mikeoertli/ffprobe-docker:latest -show_format -print_format flat "/temp/<your_file>.m4a"
 ```
 
 ## Tips and Misc. Info
@@ -76,5 +112,5 @@ To put it differently, if you don't pass an audio file argument to the `docker r
 In order to make this (appear to be) a "true" drop-in replacement for running `ffprobe` natively, you could define an alias... something like this:
 
 ```bash
-alias ffprobe='docker run -it --name ffprobe --rm -v $(pwd):/temp mikeoertli/ffprobe:latest'
+alias ffprobe='docker run -it --name ffprobe --rm -v $(pwd):/temp mikeoertli/ffprobe-docker:latest'
 ```

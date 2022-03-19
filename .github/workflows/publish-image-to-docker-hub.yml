@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Set release version environment variable
       # This uses the tag version w/ the "v." removed (this action is only triggered upon a version tag)
-        run: echo "RELEASE_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
+        run: echo "RELEASE_VERSION=${GITHUB_REF:11}-amd64" >> $GITHUB_ENV
 
       - name: Test environment variable
         run: echo ${{ env.RELEASE_VERSION }}
