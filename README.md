@@ -8,6 +8,8 @@ Simple lightweight container to run `ffprobe`.
 
 This uses Alpine `v3.15.1` and `ffprobe v4.4.1`.
 
+Note: I haven't explored [`buildx`](https://docs.docker.com/desktop/multi-arch/) yet as a multi-arch solution.
+
 ## Docker Hub
 
 This project is now on Docker Hub under the same name ([mikeoertli/ffprobe-docker](https://hub.docker.com/r/mikeoertli/ffprobe-docker))! Instead of needing to clone this repo and build, you can just pull down the pre-built images and run with those.
@@ -35,13 +37,13 @@ However, the `Dockerfile` is currently manually kept in sync with the `txt` file
 Building ARM:
 
 ```bash
-docker build -t mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)-arm64" -t mikeoertli/ffprobe-docker:latest .
+docker build --platform linux/arm64 -t mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)-arm64" -t mikeoertli/ffprobe-docker:latest .
 ```
 
 Building AMD:
 
 ```bash
-docker build -t mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)-amd64" -t mikeoertli/ffprobe-docker:latest -f Dockerfile.amd64 .
+docker build --platform linux/amd64 -t mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)-amd64" -t mikeoertli/ffprobe-docker:latest -f Dockerfile.amd64 .
 ```
 
 ### Publishing to Docker Hub
