@@ -57,7 +57,7 @@ Right now, GitHub actions [only support](https://www.mess.org/2022/01/17/Creatin
 Images for `arm64` architecture must be pushed manually, the command to do that is:
 
 ```bash
-docker push mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)"_arm64
+docker push mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)"-arm64
 ```
 
 #### Publishing AMD64 Images
@@ -67,7 +67,7 @@ Images for `amd64` architecture are pushed when tagging the repo with a tag matc
 In addition to automatic publication via GitHub Actions, repos can also be pushed manually, the command to do that is:
 
 ```bash
-docker push mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)"_amd64
+docker push mikeoertli/ffprobe-docker:"$(cat ffprobe-version.txt)"-amd64
 ```
 
 ### Run
