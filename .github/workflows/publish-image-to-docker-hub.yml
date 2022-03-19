@@ -32,4 +32,4 @@ jobs:
           push: true
           # github account and repo name (mikeoertli/ffprobe) match that of docker hub, so we can use the github repo reference here
           tags: ${{ github.repository }}:${{ env.RELEASE_VERSION }}
-          dockerfile: Dockerfile.amd64
+          file: {context}/Dockerfile.amd64
