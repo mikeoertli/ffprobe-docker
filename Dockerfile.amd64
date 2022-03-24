@@ -1,6 +1,6 @@
-FROM alpine:3.15.1
+FROM alpine:3.15
 LABEL maintainer="Mike Oertli"
-LABEL build_date="2022.03.19"
+LABEL build_date="2022.03.24"
 LABEL description="This is intended to use as a near-drop-in-replacement for running ffprobe natively."
 
 WORKDIR /temp
