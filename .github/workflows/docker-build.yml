@@ -27,4 +27,4 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: ffprobe Docker Build
-        run: docker build -t mikeoertli/ffprobe-docker:latest .
+        run: docker build -t mikeoertli/ffprobe-docker:latest-amd64 -f Dockerfile.amd64 .
